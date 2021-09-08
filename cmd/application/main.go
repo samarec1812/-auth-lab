@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/samarec1812/-auth-lab/internal/backend"
+	backend2 "github.com/samarec1812/-auth-lab/backend"
 )
 
 func main() {
-	backend.Run()
+
+	backend2.Run()
 }

@@ -1,3 +1,5 @@
 
-.PHONY: build
-build: go build -o "./cmd/application/main.go"
+.PHONY: run
+run:
+	$(info #Building...)
+	go run ./cmd/application/main.go
