@@ -60,7 +60,27 @@ func Run() {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
-		w.Write(fileContents)
+		if r.Method == "GET" {
+			w.Write(fileContents)
+		}
+		if r.Method == "POST" {
+			password, confirmPassword := "", ""
+			err := r.ParseForm()
+			if err != nil {
+				log.Println(err)
+			}
+			password = r.FormValue("password")
+			confirmPassword = r.FormValue("confirm-password")
+			fmt.Println(password, confirmPassword)
+
+			if password == confirmPassword{
+				fmt.Println("OK")
+				http.Redirect(w, r, "home", http.StatusSeeOther)
+			} else {
+				w.Write(fileContents)
+			}
+		}
+
 	})
 
 	err := http.ListenAndServe(PORT, nil)
