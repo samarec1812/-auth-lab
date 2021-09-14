@@ -1,2 +1,2 @@
-# -auth-lab
+# auth-lab
  authentication lab 1 
