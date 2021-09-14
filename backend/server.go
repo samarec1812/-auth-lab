@@ -8,7 +8,10 @@ import
 	"net/http"
 )
 
-
+type Users struct {
+	UserName string `json:"user_name"`
+	Password string `json:"password"`
+}
 var dict map[string]string = map[string]string{
 	"admin": "1234",
 }
