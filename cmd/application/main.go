@@ -1,7 +1,7 @@
 package main
 
 import (
-	backend2 "github.com/samarec1812/-auth-lab/backend"
+	backend2 "github.com/samarec1812/auth-lab/backend"
 )
 
 func main() {
