@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 )
 
@@ -66,6 +67,7 @@ func Run() {
 			fmt.Println(username, password)
 			if _, ok := dict[username]; ok && dict[username] == password{
 				fmt.Println("OK")
+				w.Header().Set("user-token", fmt.Sprintf("%v", rand.Int()%10000))
 				http.Redirect(w, r, "home", http.StatusSeeOther)
 			} else {
 				w.Write(fileContents)
@@ -90,6 +92,18 @@ func Run() {
 			// w.Write(fileContents)
 		}
 		if r.Method == "POST" {
+			fmt.Println(r.Header.Values("add-user"))
+			if r.Header.Get("add-user") == "true" {
+				username := r.FormValue("new-username")
+				password := r.FormValue("new-user-new-password")
+				fmt.Println(username, password)
+				if _, ok := dict[username]; ok && dict[username] == password{
+					fmt.Println("OK")
+				} else {
+					fmt.Println(username, password)
+				}
+			} else {
+				fmt.Println("ЗДЕСЬ")
 				password, confirmPassword := "", ""
 
 				err := r.ParseForm()
@@ -100,19 +114,19 @@ func Run() {
 				confirmPassword = r.FormValue("confirm-password")
 				fmt.Println(password, confirmPassword)
 
-			if password == confirmPassword {
-				fmt.Println("OK")
-				http.Redirect(w, r, "home", http.StatusSeeOther)
-			}
-			} else {
-				// w.Write(fileContents)
-				err := tmpl.Execute(w, users)
-				if err != nil {
-					log.Println(err)
-					return
+				if password == confirmPassword {
+					fmt.Println("OK")
+					http.Redirect(w, r, "home", http.StatusSeeOther)
+				} else {
+					// w.Write(fileContents)
+					err := tmpl.Execute(w, users)
+					if err != nil {
+						log.Println(err)
+						return
+					}
 				}
 			}
-	})
+	}})
 
 	err = http.ListenAndServe(PORT, nil)
 	if err != nil {
