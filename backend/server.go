@@ -16,7 +16,7 @@ var dict map[string]string = map[string]string{
 
 
 func Run() {
-	PORT := ":7002"
+	PORT := ":8080"
 	tmpl,_ := template.ParseFiles("./frontend/home.html")
 	data, err := ioutil.ReadFile("users.json")
 
